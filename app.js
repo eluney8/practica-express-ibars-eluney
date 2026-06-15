@@ -1,10 +1,14 @@
 import express from "express";
+import { personajeRouter } from "./src/routes/personajes.routes.js";
 
 const app = express();
 
 app.use(express.json());
 
+app.use("/api", personajeRouter);
 
-app.listen(3002, () => {
-  console.log("Servidor corriendo en el puerto 3002");
+const PORT = 3000;
+app.listen(PORT, () => {
+    console.log(`Servidor corriendo en el puerto ${PORT}`);
 });
+
