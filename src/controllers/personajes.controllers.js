@@ -61,12 +61,10 @@ export const editarUnPersonaje = (req, res) => {
   }
 
   if ((nombre && nombre.trim() === "") || (imagen && imagen.trim() === "")) {
-    return res
-      .status(400)
-      .json({
-        message:
-          "Los campos enviados no pueden estar vacios ni contener solo espacios",
-      });
+    return res.status(400).json({
+      message:
+        "Los campos enviados no pueden estar vacios ni contener solo espacios",
+    });
   }
 
   const indiceEncontrado = personajes.findIndex((p) => p.id === idNumerico);
@@ -85,4 +83,23 @@ export const editarUnPersonaje = (req, res) => {
     message: "Personaje editado correctamente",
     personajeActualizado: personajes[indiceEncontrado],
   });
+};
+
+export const eliminarUnPersonaje = (req, res) => {
+  const idPersonaje = req.params.id;
+  const idNumerico = Number(idPersonaje);
+
+  if (isNaN(idNumerico)) {
+    return res.status(400).json({ message: "El ID debe ser un numero valido" });
+  }
+
+  const indiceEncontrado = personajes.findIndex((p) => p.id === idNumerico);
+
+  if (indiceEncontrado === -1) {
+    return res.status(404).json({ message: "Personaje no encontrado" });
+  }
+
+  personajes.splice(indiceEncontrado, 1);
+
+  res.status(200).json({ message: "Personaje eliminado correctamente" });
 };
